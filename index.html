@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>registers</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/blood.css" id="theme">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h3>Registers!</h3>
+					<section>
+						<p class = "fragment fade-up">
+							Registers are <strong>quickly</strong> accessible memory locations available to the processor. The size of the register depends on the CPU architecture. Common sizes are 16 bits, 32 bits and 64 bits but they can be larger.
+							The size of registers on a machine is called the <strong>word</strong> size
+						</p>
+					</section>
+					<section>
+						<h2>Why do we need registers?</h2>
+						<p class = "fragment">We need to keep track of the state of the processor and the state the program running</p>
+						<p class = "fragment"> We need to store "local" copies of the data that the ALU is working on</p>
+						<p class="fragment fade-up">But isn't RAM enough?</p>
+					</section>
+					<section>
+						<ul>
+							<li>Relative to the processor's clock speed, reading from and writing to RAM is <i>slow</i> </li>
+							<li>Clock speeds are in the <strong>GIGA</strong>hertz, potentially meaning more than 1 billion instructions can be executed in a second!</li>
+							<li>Alot of time consuming actions have to be done before RAM can be accessed...</li>
+
+
+						</ul>
+						<p class = "fragment fade-down">But that's a presentation for another day</p>
+						
+					</section>
+					<section>
+						<h2>Bottom line</h2>
+						<p>
+							RAM will not cut it if we want to make fast and efficient software.
+						</p>
+						<p>We need registers</p>
+					</section>
+
+				</section>
+				<section>
+					<h2>Types of registers</h2>
+					<p>The two types of registers we will be looking at are the general purpose registers and the special purpose registers</p>
+					
+				</section>
+				<section>
+						<h3>General purpose registers</h3>
+						<p>Essentially just variables for the processor. They can be used to store anything that the ALU is working on and even the results</p>
+						<p>e.g The accumulator</p>
+				</section>
+				<section>
+					<h2>Special purpose registers</h2>
+					<p>These registers are used to aid in the execution of instructions and keep track of the state of the processor </p>
+					<p>e.g the program counter</p>
+				</section>
+				<section>
+					<h2>The Program Counter</h2>
+					<p>Simply put the program counter stores the address of the next instruction to be fetched, decoded and executed</p>
+				</section>
+				<section>
+					<h2>The Memory Data Register</h2>
+					<p>This special register stores the data fetched from main memory and the data which will be written to the main memory. Acts as a <strong>buffer</strong></p>
+				</section>
+				<section>
+					Example of the program counter using an actual program
+					<section>
+					<p>Let's look at a simple program</p>
+					<pre>
+						<code data-trim>
+							Dim i as Integer = 10
+							Dim j as Integer = 1
+							j = j + i
+						</code>
+					</pre>
+				</section>
+				<section >
+					<div class = "r-stack">
+					<img class = "fragment fade-in-then-out " src="Screenshot (12).png">
+					<img class="fragment fade-in-then-out " src="Screenshot (13).png">
+					<img class="fragment fade-in-then-out  "  src="Screenshot (14).png">
+					<img class="fragment fade-in-then-out  "  src="Screenshot (15).png">
+					<img class = "fragment fade-in-then-out  " src="Screenshot (16).png">
+					</div>
+				</section>
+				<section>
+					<pre><code data-trim data-line-numbers = "3,4|5,6">
+   0x0000555555555125 <+0>:     push   rbp
+   0x0000555555555126 <+1>:     mov    rbp,rsp
+   0x0000555555555129 <+4>:     mov    DWORD PTR [rbp-0x4],0xa
+   0x0000555555555130 <+11>:    mov    DWORD PTR [rbp-0x8],0x1
+   0x0000555555555137 <+18>:    mov    eax,DWORD PTR [rbp-0x4]
+   0x000055555555513a <+21>:    add    DWORD PTR [rbp-0x8],eax
+   0x000055555555513d <+24>:    mov    eax,DWORD PTR [rbp-0x8]
+   0x0000555555555140 <+27>:    pop    rbp
+   0x0000555555555141 <+28>:    ret
+					</code></pre>
+				</section>
+				</section>
+				<section>
+					<h2>Questions</h2>
+					<section>
+						1. During the decode and execute stages of the fetch-execute cycle the instruction
+that is being processed is stored in the CIR. Explain why the instruction could
+not be processed directly from the MDR.
+					</section>
+					<section>
+						2. Are there any advantages of having a small number of registers?
+					</section>
+				</section>
+				<section>
+						<h2>Answers</h2>
+						<section>
+							1. To execute the instruction other data may be fetched which would overwrite the MDR and overwrite the instruction recently fetched
+
+						</section>
+						<section>
+							2. Yes (this would be a pretty boring slide if there weren't any)
+							<ul>
+								<li>
+									Instruction encoding - The more registers you have, the more bits you need in your instruction to specify each register. If you had only 4 registers, you would only need 2 bits to uniquely identify each register while 256 would need 8 bits.
+								</li>
+								<li>
+									Space - Registers are on the physical board so there's a limited amount of realestate to house them
+								</li>
+							</ul>
+						</section>
+					
+				</section>
+				
+				
+				
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				slideNumber : true,
+				pdf:true,
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
