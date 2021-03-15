@@ -11,7 +11,7 @@
 		<link rel="stylesheet" href="dist/theme/blood.css" id="theme">
 
 		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+		<link rel="stylesheet" href="plugin/highlight/zenburn.css" id="highlight-theme">
 	</head>
 	<body>
 		<div class="reveal">
@@ -20,13 +20,13 @@
 					<h3>Registers!</h3>
 					<section>
 						<p class = "fragment fade-up">
-							Registers are <strong>quickly</strong> accessible memory locations available to the processor. The size of the register depends on the CPU architecture. Common sizes are 16 bits, 32 bits and 64 bits but they can be larger.
+							Registers are <strong>quickly</strong> accessible memory locations available to the processor. The size of the register depends on the CPU architecture. Common sizes are 16 bits, 32 bits and 64 bits but they can be <a href="https://youtu.be/QghC6G8TyQ0?t=577">larger</a>.
 							The size of registers on a machine is called the <strong>word</strong> size
 						</p>
 					</section>
 					<section>
 						<h2>Why do we need registers?</h2>
-						<p class = "fragment">We need to keep track of the state of the processor and the state the program running</p>
+						<p class = "fragment">We need to keep track of the state of the processor and the state of the program running</p>
 						<p class = "fragment"> We need to store "local" copies of the data that the ALU is working on</p>
 						<p class="fragment fade-up">But isn't RAM enough?</p>
 					</section>
@@ -72,7 +72,7 @@
 				</section>
 				<section>
 					<h2>The Program Counter</h2>
-					<p>Simply put the program counter stores the address of the next instruction to be fetched, decoded and executed</p>
+					<p>Simply put the program counter stores the address of the next instruction to be fetched, decoded and executed. Used to facilitate iteration</p>
 				</section>
 				<section>
 					<h2>The Memory Data Register</h2>
@@ -90,17 +90,9 @@
 						</code>
 					</pre>
 				</section>
-				<section >
-					<div class = "r-stack">
-					<img class = "fragment fade-in-then-out " src="Screenshot (12).png">
-					<img class="fragment fade-in-then-out " src="Screenshot (13).png">
-					<img class="fragment fade-in-then-out  "  src="Screenshot (14).png">
-					<img class="fragment fade-in-then-out  "  src="Screenshot (15).png">
-					<img class = "fragment fade-in-then-out  " src="Screenshot (16).png">
-					</div>
-				</section>
 				<section>
-					<pre><code data-trim data-line-numbers = "3,4|5,6">
+					<pre><code data-trim data-line-numbers = "1|2|3|4|5|6|7" data-noescape>
+   //address of instruction    opcode  operands
    0x0000555555555125 <+0>:     push   rbp
    0x0000555555555126 <+1>:     mov    rbp,rsp
    0x0000555555555129 <+4>:     mov    DWORD PTR [rbp-0x4],0xa
@@ -112,12 +104,40 @@
    0x0000555555555141 <+28>:    ret
 					</code></pre>
 				</section>
+				<section>
+					<p>Jumps</p>
+					<pre>
+						<code data-trim data-noescape>
+							For i = 0 To 5 
+							    j = j + 5
+							Next
+						</code>
+					</pre>
+				</section>
+				<section>
+					<pre>
+						<code data-trim data-noescape data-line-numbers = "3|4|5|8|6|7">
+   0x0000555555555125 <+0>:     push   rbp
+   0x0000555555555126 <+1>:     mov    rbp,rsp
+   0x0000555555555129 <+4>:     mov    DWORD PTR [rbp-0x4],0x0
+   0x0000555555555130 <+11>:    mov    DWORD PTR [rbp-0x8],0x0
+   0x0000555555555137 <+18>:    jmp    0x555555555141 <main+28>
+   0x0000555555555139 <+20>:    add    DWORD PTR [rbp-0x8],0x5
+   0x000055555555513d <+24>:    add    DWORD PTR [rbp-0x4],0x1
+   0x0000555555555141 <+28>:    cmp    DWORD PTR [rbp-0x4],0x4
+   0x0000555555555145 <+32>:    jle    0x555555555139 <main+20>
+   0x0000555555555147 <+34>:    mov    eax,DWORD PTR [rbp-0x8]
+   0x000055555555514a <+37>:    pop    rbp
+   0x000055555555514b <+38>:    ret
+						</code>
+					</pre>
+				</section>
 				</section>
 				<section>
 					<h2>Questions</h2>
 					<section>
 						1. During the decode and execute stages of the fetch-execute cycle the instruction
-that is being processed is stored in the CIR. Explain why the instruction could
+that is being processed is stored in the CIR[Current Instruction Register]. Explain why the instruction could
 not be processed directly from the MDR.
 					</section>
 					<section>
@@ -131,7 +151,7 @@ not be processed directly from the MDR.
 
 						</section>
 						<section>
-							2. Yes (this would be a pretty boring slide if there weren't any)
+							
 							<ul>
 								<li>
 									Instruction encoding - The more registers you have, the more bits you need in your instruction to specify each register. If you had only 4 registers, you would only need 2 bits to uniquely identify each register while 256 would need 8 bits.
