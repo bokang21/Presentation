@@ -11,7 +11,7 @@
 		<link rel="stylesheet" href="dist/theme/blood.css" id="theme">
 
 		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/zenburn.css" id="highlight-theme">
+		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
 	</head>
 	<body>
 		<div class="reveal">
@@ -76,7 +76,7 @@
 				</section>
 				<section>
 					<h2>The Memory Data Register</h2>
-					<p>This special register stores the data fetched from main memory and the data which will be written to the main memory. Acts as a <strong>buffer</strong></p>
+					<p>This special register stores the data fetched from main memory and the data which will be written to the main memory. Acts as a <strong>buffer</strong> and allows the CPU and RAM to act independently</p>
 				</section>
 				<section>
 					Example of the program counter using an actual program
@@ -116,7 +116,7 @@
 				</section>
 				<section>
 					<pre>
-						<code data-trim data-noescape data-line-numbers = "3|4|5|8|6|7">
+						<code data-trim data-noescape data-line-numbers = "3|4|5|8|9|6|7|8|9">
    0x0000555555555125 <+0>:     push   rbp
    0x0000555555555126 <+1>:     mov    rbp,rsp
    0x0000555555555129 <+4>:     mov    DWORD PTR [rbp-0x4],0x0
